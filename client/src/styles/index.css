@@ -1,0 +1,36 @@
+
+.div-container-notes {
+    display: flex;
+    width: 100%;
+    background-color: blue;
+}
+
+.grid-note {
+    background-color: var(--white-background);
+    height: 25rem;
+    width: 25rem;
+    border-radius: 10px;
+}
+
+.note-body {
+    margin-top: 0.5rem;
+    height: 16rem;
+}
+
+.footer-icon {
+    float: left;
+    margin-top: 0.6rem;
+    margin-left: 0.5rem;
+}
+
+.footer-icon:hover {
+    cursor: pointer;
+}
+
+.edit-icon:hover {
+    color: var(--background-blue);
+}
+
+.delete-icon:hover {
+    color: var(--red-fire);
+}

@@ -1,0 +1,35 @@
+.internal-container {
+    width: 35rem;
+    height: 30rem;
+    background-color: var(--black-background);
+    border-radius: 10px;
+}
+
+.div-form {
+    padding-left: 5rem;
+    padding-top: 2rem;
+    display: block;
+}
+
+.text-input {
+    float: left;
+    height: 2rem;
+    width: 20rem;
+    padding-left: 0.8rem;
+    border-radius: 5px;
+    border: 0;
+    background-color: var(--white-background);
+    color: var(--black-background);
+}
+
+.textarea-input {
+    float: left;
+    height: 4rem;
+    width: 20rem;
+    padding-left: 0.8rem;
+    padding-top: 0.3rem;
+    border-radius: 5px;
+    border: 0;
+    background-color: var(--white-background);
+    color: var(--black-background);
+}
