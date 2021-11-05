@@ -31,16 +31,21 @@ function AddNote() {
   const sendNote = () => {
 
     let datetime = new Date();
-    let date = datetime.getDate()+"/"+datetime.getMonth()+"/"+datetime.getFullYear() + " ";
-    let time = datetime.getHours()+":"+datetime.getMinutes()+":"+datetime.getSeconds();
-    let formatedDatetime = date + time;
+    let dateResult = datetime.toLocaleDateString("pt-br", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+    });
 
     Axios.post("http://localhost:3001/insert", {
       title: title, 
       text: text, 
       tag: tag, 
       author: author, 
-      datetime: formatedDatetime,
+      datetime: dateResult,
     })
     .then(() => {
       console.log("Successful sendNote");
@@ -58,22 +63,22 @@ function AddNote() {
 
             <div style={{"marginLeft": "3rem"}}>
               <Typography variant="h6" style={{"color": "white", "text-align": "left"}}>Note title</Typography>
-              <input type="text" placeholder="Title" className="text-input" onChange={(e) => {setTitle(e.target.value)}} />
+              <input type="text" maxLength="45" placeholder="Title" className="text-input" onChange={(e) => {setTitle(e.target.value)}} />
             </div>
 
             <div style={{"marginLeft": "3rem", "marginTop": "3rem"}}>
               <Typography variant="h6" style={{"color": "white", "text-align": "left"}}>Note text</Typography>
-              <textarea placeholder="Multiline text" className="textarea-input" onChange={(e) => {setText(e.target.value)}} />
+              <textarea placeholder="Multiline text" maxLength="500" className="textarea-input" onChange={(e) => {setText(e.target.value)}} />
             </div>
 
             <div style={{"marginLeft": "3rem", "marginTop": "5rem"}}>
               <Typography variant="h6" style={{"color": "white", "text-align": "left"}}>Note tag</Typography>
-              <input type="text" placeholder="Category, tags..." className="text-input" onChange={(e) => {setTag(e.target.value)}} />
+              <input type="text" maxLength="20" placeholder="Category, tags..." className="text-input" onChange={(e) => {setTag(e.target.value)}} />
             </div>
 
             <div style={{"marginLeft": "3rem", "marginTop": "3rem"}}>
               <Typography variant="h6" style={{"color": "white", "text-align": "left"}}>Note author</Typography>
-              <input type="text" placeholder="Name" className="text-input" onChange={(e) => {setAuthor(e.target.value)}}/>
+              <input type="text" placeholder="Name" maxLength="45" className="text-input" onChange={(e) => {setAuthor(e.target.value)}}/>
             </div>
 
           </div>

@@ -29,16 +29,21 @@ function EditNote() {
     const edit = (id) => {
 
         let datetime = new Date();
-        let date = datetime.getDate()+"/"+datetime.getMonth()+"/"+datetime.getFullYear() + " ";
-        let time = datetime.getHours()+":"+datetime.getMinutes()+":"+datetime.getSeconds();
-        let formatedDatetime = date + time;
+        let dateResult = datetime.toLocaleDateString("pt-br", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric',
+        });
 
         Axios.put("http://localhost:3001/update", { 
             id: id,
             title: title,
             tag: tag,
             text: text,
-            datetime: formatedDatetime
+            datetime: dateResult
         }).then(() => {
             console.log("Edits updated successful");
             history.push("/");
@@ -125,11 +130,11 @@ function EditNote() {
 
                         <div className="note-header">
 
-                            <input type="text" defaultValue={note.title} style={titleInputStyle} onChange={ (e) => {setTitle(e.target.value)} } />
+                            <input type="text" maxLength="45" defaultValue={note.title} style={titleInputStyle} onChange={ (e) => {setTitle(e.target.value)} } />
                             
                             <div style={{"display": "flex"}}>
                                 <Typography variant="h5" style={noteAuthorStyle}>{note.author}</Typography>
-                                <input type="text" defaultValue={note.tag} style={tagInputStyle} onChange={ (e) => {setTag(e.target.value)} }/>
+                                <input type="text" maxLength="20" defaultValue={note.tag} style={tagInputStyle} onChange={ (e) => {setTag(e.target.value)} }/>
                             </div>
 
                         </div>
@@ -137,7 +142,7 @@ function EditNote() {
                         <hr style={{"marginTop": "0.5rem"}}/>
 
                         <div className="note-body">
-                            <textarea defaultValue={note.text} style={textAreaStyle} onChange={ (e) => {setText(e.target.value)} }></textarea>
+                            <textarea defaultValue={note.text} maxLength="500" style={textAreaStyle} onChange={ (e) => {setText(e.target.value)} }></textarea>
                         </div>
 
                     </div>
