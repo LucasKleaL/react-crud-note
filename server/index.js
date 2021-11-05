@@ -51,12 +51,13 @@ app.put("/update", (req, res) => {
 
     let id = req.body.id;
     let title = req.body.title;
+    let tag = req.body.title;
     let text = req.body.text;
     let datetime = req.body.datetime;
 
     db.query(
-        "UPDATE note SET title = ?, text = ?, datetime = ? WHERE id = ?",
-        [title, text, datetime, id],
+        "UPDATE note SET title = ?, tag = ?, text = ?, datetime = ? WHERE id = ?",
+        [title, tag, text, datetime, id],
         (err, result) => {
             if (err) {
                 console.log(err);

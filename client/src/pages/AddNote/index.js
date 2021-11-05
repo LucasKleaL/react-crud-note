@@ -1,4 +1,5 @@
 import { React, useState } from "react";
+import { useHistory } from "react-router";
 import { Container, Typography, Button } from "@material-ui/core";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
 import Axios from "axios";
@@ -8,6 +9,8 @@ import "./../../styles/addNote.css";
 import "@fontsource/roboto";
 
 function AddNote() {
+
+  var history = useHistory();
 
   const [title, setTitle] = useState();
   const [text, setText] = useState();
@@ -41,6 +44,7 @@ function AddNote() {
     })
     .then(() => {
       console.log("Successful sendNote");
+      history.push("/");
     })
   }
 

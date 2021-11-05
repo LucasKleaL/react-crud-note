@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { useHistory, Redirect, Link } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 import Axios from "axios";
 
 import { Container, Typography, Button } from "@material-ui/core";
@@ -31,17 +31,30 @@ function Home() {
   }
 
   const deleteNote = (id) => {
-    Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
-      setNotesArray(
-          notesArray.filter((val) => {
-              return val.id != id;
-          })
-      )
-    })
+
+    let answer = window.confirm("Are you sure want to delete?");
+      if (answer) {
+        Axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
+          setNotesArray(
+              notesArray.filter((val) => {
+                  return val.id != id;
+              })
+          )
+        });
+      }
+
   }
 
-  function AddNote(e) {
-    console.log("addnote")
+  function editNote(val) {
+    let note = [];
+    note.push({
+        id: val.id,
+        title: val.title,
+        text: val.text,
+        tag: val.tag,
+        author: val.author
+    })
+    window.sessionStorage.setItem("editNote", JSON.stringify(note));
   }
 
   const noteTitleStyle = {
@@ -67,8 +80,16 @@ function Home() {
     textAlign: "left",
     fontSize: "0.8rem",
     marginLeft: "1rem",
-    marginTop: "0.6rem",
+    marginTop: "0.5rem",
     fontWeight: "590"
+  }
+
+  const noteTagStyle = {
+    color: "var(--black)",
+    textAlign: "left",
+    fontSize: "0.9rem",
+    fontWeight: "600",
+    paddingLeft: "0.5rem"
   }
 
   const noteTextStyle = {
@@ -97,44 +118,12 @@ function Home() {
       <ThemeProvider theme={addNoteButton}>
         
         <Link to="/add">
-            <Button variant="outlined" color="primary" onClick={AddNote} style={{"borderWidth": "2px", "marginBottom": "0.5rem", "float": "left"}}>New Note</Button>
+            <Button variant="outlined" color="primary" style={{"borderWidth": "2px", "marginBottom": "0.5rem", "float": "left"}}>New Note</Button>
         </Link>
 
       </ThemeProvider>
 
       <Grid container spacing={2}>
-
-        {
-            /*
-            <Grid item className="grid-note" style={{"marginLeft": "0.5rem", "marginTop": "0.5rem"}}>
-
-            <div className="note-header">
-  
-              <Typography variant="h1" style={noteTitleStyle}>Note title</Typography>
-              
-              <div style={{"display": "flex"}}>
-                <Typography variant="h5" style={noteAuthorStyle}>Lucas Kusman</Typography>
-                <Typography variant="h5" style={noteDatetimeStyle}>04/11/2021 14:35</Typography>
-              </div>
-              
-            </div>
-  
-            <hr style={{"marginTop": "0.5rem"}}/>
-  
-            <div className="note-body">
-              <Typography variant="p" style={noteTextStyle}>TAenean placerat. In vulputate urna eu arcu. Aliquam erat volutpat. Suspendisse potenti. Morbi mattis felis at nunc. Duis viverra diam non justo. In nisl. Nullam sit amet magna in magna gravida vehicula. Mauris tincidunt sem sed arcu. Nunc posuere. Nullam lectus justo, vulputate eget, mollis sed, tempor sed, magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam neque.
-  
-              </Typography>
-            </div>
-  
-            <div className="note-footer">
-              <Edit className="footer-icon edit-icon" />
-              <DeleteForever className="footer-icon delete-icon"/>
-            </div>
-  
-          </Grid>
-          */
-        }
 
         {
             notesArray.map((val, key) => {
@@ -148,8 +137,13 @@ function Home() {
                             <div style={{"display": "flex"}}>
                                 <Typography variant="h5" style={noteAuthorStyle}>{val.author}</Typography>
                                 <Typography variant="h5" style={noteDatetimeStyle}>{val.datetime}</Typography>
+
+                                <div className="note-tag">
+                                  <Typography variant="h5" style={noteTagStyle}>{val.tag}</Typography>
+                                </div>
+
                             </div>
-                        
+
                         </div>
             
                         <hr style={{"marginTop": "0.5rem"}}/>
@@ -159,7 +153,9 @@ function Home() {
                         </div>
             
                         <div className="note-footer">
-                            <Edit className="footer-icon edit-icon" />
+                            <Link to="/edit">
+                                <Edit className="footer-icon edit-icon" onClick={() => editNote(val)} />
+                            </Link>
                             <DeleteForever onClick={() => deleteNote(val.id)} className="footer-icon delete-icon"/>
                         </div>
         
